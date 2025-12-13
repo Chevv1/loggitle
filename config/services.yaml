@@ -1,24 +1,44 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
-parameters:
-
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  _defaults:
+    autowire: true
+    autoconfigure: true
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+  App\Shared\Application\:
+    resource: '../src/Shared/Application/'
+    exclude:
+      - '../src/Shared/Application/Bus/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+  App\Shared\Application\Bus\CommandBusInterface:
+    alias: App\Shared\Infrastructure\Bus\SymfonyCommandBus
+  App\Shared\Application\Bus\QueryBusInterface:
+    alias: App\Shared\Infrastructure\Bus\SymfonyQueryBus
+
+  App\Shared\Infrastructure\:
+    resource: '../src/Shared/Infrastructure/'
+  App\Shared\Infrastructure\Bus\SymfonyCommandBus:
+    arguments:
+      $bus: '@messenger.bus.command'
+  App\Shared\Infrastructure\Bus\SymfonyQueryBus:
+    arguments:
+      $bus: '@messenger.bus.query'
+
+  App\Ingestion\Application\:
+    resource: '../src/Ingestion/Application/'
+  App\Ingestion\Infrastructure\:
+    resource: '../src/Ingestion/Infrastructure/'
+  App\Ingestion\Presentation\:
+    resource: '../src/Ingestion/Presentation/'
+
+  _instanceof:
+    App\Shared\Application\Command\CommandHandlerInterface:
+      tags:
+        - { name: messenger.message_handler, bus: messenger.bus.command }
+
+    App\Shared\Application\Query\QueryHandlerInterface:
+      tags:
+        - { name: messenger.message_handler, bus: messenger.bus.query }
+
+  App\Ingestion\Domain\Repository\LogStreamRepositoryInterface:
+    alias: App\Ingestion\Infrastructure\Repository\Write\LogStreamRepository
+  App\Ingestion\Application\ReadModel\LogStreamReadModelRepositoryInterface:
+    alias: App\Ingestion\Infrastructure\Repository\Read\CachedLogStreamReadModelRepository

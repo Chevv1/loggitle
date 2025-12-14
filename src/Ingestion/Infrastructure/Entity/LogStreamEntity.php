@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 class LogStreamEntity
 {
     #[ORM\Id]
-    #[ORM\Column(type: 'string', length: 36)]
+    #[ORM\Column(type: 'uuid')]
     public string $id {
         get {
             return $this->id;
@@ -26,6 +26,16 @@ class LogStreamEntity
         }
         set {
             $this->message = $value;
+        }
+    }
+
+    #[ORM\Column(type: 'string', length: 20)]
+    public string $level {
+        get {
+            return $this->level;
+        }
+        set {
+            $this->level = $value;
         }
     }
 
@@ -49,11 +59,13 @@ class LogStreamEntity
     public function __construct(
         string $id,
         string $message,
+        string $level,
         array $context,
         DateTimeImmutable $createdAt,
     ) {
         $this->id = $id;
         $this->message = $message;
+        $this->level = $level;
         $this->context = $context;
         $this->createdAt = $createdAt;
     }

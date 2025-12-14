@@ -22,6 +22,7 @@ final readonly class LogStreamReadModelRepository implements LogStreamReadModelR
                 SELECT
                     id,
                     message,
+                    level,
                     context,
                     created_at 
                 FROM
@@ -41,6 +42,7 @@ final readonly class LogStreamReadModelRepository implements LogStreamReadModelR
                 callback: static fn(array $row) => new LogStreamDTO(
                     id: $row['id'],
                     message: $row['message'],
+                    level: $row['level'],
                     context: json_decode($row['context'], true),
                     createdAt: $row['created_at'],
                 ),

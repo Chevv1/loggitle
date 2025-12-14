@@ -12,9 +12,4 @@ abstract readonly class AbstractId extends AbstractString
     {
         return new static(Uuid::v4()->toString());
     }
-
-    public static function fromString(string $value): self
-    {
-        return new static($value);
-    }
 }

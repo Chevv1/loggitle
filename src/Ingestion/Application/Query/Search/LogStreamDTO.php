@@ -9,6 +9,7 @@ final readonly class LogStreamDTO
     public function __construct(
         public string $id,
         public string $message,
+        public string $level,
         public array $context,
         public string $createdAt,
     )
@@ -20,6 +21,7 @@ final readonly class LogStreamDTO
         return [
             'id' => $this->id,
             'message' => $this->message,
+            'level' => $this->level,
             'context' => $this->context,
             'createdAt' => $this->createdAt,
         ];

@@ -22,12 +22,7 @@ final readonly class LogStreamListDTO
     {
         return [
             'data' => array_map(
-                callback: static fn($item): array => [
-                    'id' => $item->id,
-                    'message' => $item->message,
-                    'context' => $item->context,
-                    'created_at' => $item->createdAt,
-                ],
+                callback: static fn(LogStreamDTO $item): array => $item->toArray(),
                 array: $this->items,
             ),
             'meta' => [

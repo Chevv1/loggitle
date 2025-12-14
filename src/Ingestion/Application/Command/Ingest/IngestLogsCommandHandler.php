@@ -6,6 +6,7 @@ namespace App\Ingestion\Application\Command\Ingest;
 
 use App\Ingestion\Domain\Entity\LogStream;
 use App\Ingestion\Domain\Entity\LogStreamContext;
+use App\Ingestion\Domain\Entity\LogStreamLevel;
 use App\Ingestion\Domain\Entity\LogStreamMessage;
 use App\Ingestion\Domain\Repository\LogStreamRepositoryInterface;
 use App\Shared\Application\Command\CommandHandlerInterface;
@@ -23,6 +24,7 @@ final readonly class IngestLogsCommandHandler implements CommandHandlerInterface
         $logStream = LogStream::create(
             message: new LogStreamMessage($command->message),
             context: new LogStreamContext($command->context),
+            level: new LogStreamLevel($command->level),
         );
 
         $this->logStreamRepository->save($logStream);

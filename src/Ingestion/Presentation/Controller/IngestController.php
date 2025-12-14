@@ -24,6 +24,7 @@ final class IngestController extends AbstractController
     ): JsonResponse {
         $this->commandBus->dispatch(new IngestLogsCommand(
             message: $requestDTO->message,
+            level: $requestDTO->level,
             context: $requestDTO->context,
         ));
 

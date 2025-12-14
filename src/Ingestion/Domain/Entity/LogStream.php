@@ -12,6 +12,7 @@ final class LogStream extends AbstractAggregateRoot
         private readonly LogStreamId        $id,
         private readonly LogStreamMessage   $message,
         private readonly LogStreamContext   $context,
+        private readonly LogStreamLevel     $level,
         private readonly LogStreamCreatedAt $createdAt,
     )
     {
@@ -20,11 +21,13 @@ final class LogStream extends AbstractAggregateRoot
     public static function create(
         LogStreamMessage $message,
         LogStreamContext $context,
+        LogStreamLevel   $level,
     ): self {
         return new self(
             id: LogStreamId::generate(),
             message: $message,
             context: $context,
+            level: $level,
             createdAt: LogStreamCreatedAt::now(),
         );
     }
@@ -42,6 +45,11 @@ final class LogStream extends AbstractAggregateRoot
     public function getContext(): LogStreamContext
     {
         return $this->context;
+    }
+
+    public function getLevel(): LogStreamLevel
+    {
+        return $this->level;
     }
 
     public function getCreatedAt(): LogStreamCreatedAt

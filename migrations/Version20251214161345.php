@@ -7,10 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
-final class Version20251213121241 extends AbstractMigration
+final class Version20251214161345 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,11 +18,13 @@ final class Version20251213121241 extends AbstractMigration
     {
         $this->addSql('
             CREATE TABLE log_streams (
-                id VARCHAR(36) NOT NULL,
+                id UUID NOT NULL,
                 message TEXT NOT NULL,
+                level VARCHAR(20) NOT NULL,
                 context JSON NOT NULL,
                 created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
-                PRIMARY KEY (id))
+                PRIMARY KEY (id)
+             )
         ');
     }
 

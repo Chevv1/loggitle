@@ -12,7 +12,7 @@ abstract readonly class AbstractArray extends AbstractValueObject
     {
     }
 
-    public static function create(array $value): static
+    public static function fromArray(array $value): static
     {
         return new static($value);
     }

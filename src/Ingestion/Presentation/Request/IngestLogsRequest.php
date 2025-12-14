@@ -13,6 +13,17 @@ final class IngestLogsRequest
         #[Assert\NotBlank]
         public string $message,
 
+        #[Assert\Type('string')]
+        #[Assert\Choice(choices: [
+            'debug',
+            'info',
+            'warn',
+            'error',
+            'fatal',
+        ])]
+        #[Assert\NotBlank]
+        public string $level,
+
         #[Assert\Type('array')]
         public ?array $context,
     )

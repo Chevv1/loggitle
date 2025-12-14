@@ -12,7 +12,7 @@ abstract readonly class AbstractString extends AbstractValueObject
     {
     }
 
-    public static function create(string $value): static
+    public static function fromString(string $value): static
     {
         return new static($value);
     }

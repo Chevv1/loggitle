@@ -10,6 +10,7 @@ final readonly class IngestLogsCommand implements CommandInterface
 {
     public function __construct(
         public string $message,
+        public string $level,
         public array $context,
     )
     {
